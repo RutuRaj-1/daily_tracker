@@ -1,0 +1,23 @@
+# Node
+node_modules/
+
+# Build folders
+build/
+dist/
+electron-app/build/
+electron-app/dist/
+win-unpacked/
+
+# Electron
+*.exe
+*.blockmap
+
+# Logs
+*.log
+
+# Env
+.env
+
+# OS
+.DS_Store
+Thumbs.db

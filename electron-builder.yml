@@ -1,0 +1,29 @@
+appId: "com.ruturaj.flowstate"
+productName: "FlowState"
+copyright: "Copyright © 2026 Ruturaj Bhome"
+extends: null
+
+directories:
+  app: "electron-app"
+  output: "dist"
+  buildResources: "public"
+
+files:
+  - "**/*"
+  - "!**/*.{ts,tsx,md}"
+
+win:
+  target:
+    - target: "nsis"
+      arch:
+        - "x64"
+  icon: "../public/favicon.ico"
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "FlowState"
+
+asar: true

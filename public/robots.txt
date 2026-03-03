@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://dailytracker.app/sitemap.xml
+"@ | Out-File -FilePath public/robots.txt -Encoding utf8

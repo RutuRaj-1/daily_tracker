@@ -1,0 +1,54 @@
+{
+  "name": "Daily-Tracker",
+  "version": "2.0.0",
+  "private": true,
+  "main": "electron/electron.js",
+  "homepage": "./",
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "firebase": "^10.8.0",
+    "lucide-react": "^0.125.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.4.3",
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron-dev": "concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-build": "node build-electron.js",
+    "electron-pack": "electron-builder --dir"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "concurrently": "^9.2.1",
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.4",
+    "wait-on": "^9.0.4"
+  }
+}

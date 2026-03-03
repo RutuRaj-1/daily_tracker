@@ -1,0 +1,8 @@
+{
+    "name": "flowstate",
+    "version": "2.0.0",
+    "description": "Personal Execution Intelligence System",
+    "author": "Ruturaj Bhome",
+    "main": "electron.js",
+    "private": true
+}
