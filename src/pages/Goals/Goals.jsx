@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useCallback, memo } from 'react';
 import {
     Target, Plus, ChevronDown, ChevronRight, Trash2, Edit3,
-    Calendar, TrendingUp, Award, Zap, BookOpen, Heart, User, X, Check,
+    Calendar, TrendingUp, Award, Zap, BookOpen, Heart, User, X,
     AlertTriangle, Clock
 } from 'lucide-react';
 import { useGoals } from '../../hooks/useGoals';
-import { getTimeRiskLevel, getDaysRemaining, getTimeElapsedPct, getGoalStats } from '../../utils/progressEngine';
+import { getTimeRiskLevel, getDaysRemaining, getTimeElapsedPct } from '../../utils/progressEngine';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const CATEGORY_META = {
@@ -118,8 +118,8 @@ const GoalFormModal = memo(({ onClose, onSave, editGoal, parentGoals, type }) =>
                                     <button key={key} type="button"
                                         onClick={() => setForm(f => ({ ...f, category: key }))}
                                         className={`flex flex-col items-center gap-1 py-2 px-1 rounded-lg border text-xs transition-all ${form.category === key
-                                                ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
-                                                : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                                            ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
+                                            : 'border-slate-200 text-slate-500 hover:border-slate-300'
                                             }`}
                                     >
                                         <Icon size={14} />
@@ -331,7 +331,7 @@ const GoalCard = memo(({ goal, progressMap, childGoals = [], onEdit, onDelete, a
                                     </div>
                                 </div>
                                 <div className={`w-2 h-2 rounded-full ${getTimeRiskLevel({ ...child, progress: childProgress }) === 'danger' ? 'bg-red-400' :
-                                        getTimeRiskLevel({ ...child, progress: childProgress }) === 'warning' ? 'bg-amber-400' : 'bg-emerald-400'
+                                    getTimeRiskLevel({ ...child, progress: childProgress }) === 'warning' ? 'bg-amber-400' : 'bg-emerald-400'
                                     }`} />
                             </div>
                         );
@@ -503,8 +503,8 @@ const Goals = () => {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-sm font-medium transition-all ${activeTab === tab.id
-                                    ? 'bg-white text-indigo-700 shadow-sm'
-                                    : 'text-slate-500 hover:text-slate-700'
+                                ? 'bg-white text-indigo-700 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
                                 }`}
                         >
                             <Icon size={14} />

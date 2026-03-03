@@ -13,7 +13,7 @@ import { useAnalytics } from '../../hooks/useAnalytics';
 
 const AnalyticsDashboard = () => {
   const [timeframe, setTimeframe] = useState('week');
-  const { } = useTasks();
+
   const {
     loading, weeklyData, monthlyData, disciplineMetrics,
     overallScore, streak, priorityRatios, bestWorstDays, insights
