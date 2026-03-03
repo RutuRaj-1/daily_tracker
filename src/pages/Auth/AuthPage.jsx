@@ -284,24 +284,6 @@ const AuthPage = () => {
           </div>
         </div>
 
-        {/* Testimonial */}
-        <div className="relative z-10">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-            <p className="text-indigo-200 text-sm italic">
-              "This platform transformed how I approach my daily tasks. The focus sessions alone saved me 10+ hours per week."
-            </p>
-            <div className="mt-4 flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-medium">
-                SJ
-              </div>
-              <div>
-                <p className="text-white text-sm font-medium">Sarah Johnson</p>
-                <p className="text-indigo-300 text-xs">Product Lead at TechFlow</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Footer */}
         <div className="relative z-10 text-indigo-300 text-xs">
           © 2024 flowstate. All rights reserved.
@@ -317,7 +299,7 @@ const AuthPage = () => {
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-400 to-violet-400 rounded-xl flex items-center justify-center">
               <Target className="w-6 h-6 text-white" />
             </div>
-            <span className="text-slate-700 text-xl font-light">flowstate</span>
+            <span className="text-slate-700 text-xl font-light">FlowState</span>
           </div>
 
           {/* Header */}

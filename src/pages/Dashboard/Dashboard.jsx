@@ -20,7 +20,8 @@ const Dashboard = () => {
   const { quote, refreshQuote } = useQuotes();
   const { goals, progressMap } = useGoals();
   const [showAddTask, setShowAddTask] = useState(false);
-  const [newTask, setNewTask] = useState({ title: '', priority: 'medium', dueDate: '' });
+  const [newTask, setNewTask] = useState({ title: '', priority: 'medium', dueDate: '', linkedGoalId: '' });
+  const monthlyGoals = goals.filter(g => g.type === 'monthly');
 
   const todayTasks = useMemo(() => getTodayTasks(), [getTodayTasks]);
   const completedCount = useMemo(() => getCompletedToday(), [getCompletedToday]);
@@ -77,8 +78,9 @@ const Dashboard = () => {
       priority: newTask.priority,
       dueDate: newTask.dueDate || todayStr,
       category: 'general',
+      linkedGoalId: newTask.linkedGoalId || null,
     });
-    setNewTask({ title: '', priority: 'medium', dueDate: '' });
+    setNewTask({ title: '', priority: 'medium', dueDate: '', linkedGoalId: '' });
     setShowAddTask(false);
   }, [newTask, addTask]);
 
@@ -306,9 +308,26 @@ const Dashboard = () => {
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-300"
                 />
               </div>
-              <button type="submit" className="w-full py-3 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl hover:from-indigo-600 hover:to-violet-600 transition-all text-sm font-medium shadow-sm">
-                Add Task
-              </button>
+              {monthlyGoals.length > 0 && (
+                <div className="relative">
+                  <select value={newTask.linkedGoalId}
+                    onChange={(e) => setNewTask(p => ({ ...p, linkedGoalId: e.target.value }))}
+                    className="w-full px-4 py-3 bg-indigo-50 border border-indigo-100 rounded-xl text-sm focus:outline-none appearance-none text-indigo-700"
+                  >
+                    <option value="">🎯 Link to a Monthly Goal (optional)</option>
+                    {monthlyGoals.map(g => (
+                      <option key={g.id} value={g.id}>{g.title}</option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-300 pointer-events-none" />
+                </div>
+              )}
+              <div className="flex gap-3 pt-1">
+                <button type="button" onClick={() => setShowAddTask(false)} className="flex-1 py-3 border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 text-sm">Cancel</button>
+                <button type="submit" className="flex-1 py-3 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl hover:from-indigo-600 hover:to-violet-600 transition-all text-sm font-medium shadow-sm">
+                  Add Task
+                </button>
+              </div>
             </form>
           </div>
         </div>
