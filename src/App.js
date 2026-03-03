@@ -61,7 +61,7 @@ const NotFoundPage = () => (
         The page you're looking for doesn't exist or has been moved.
       </p>
       <a
-        href="/dashboard"
+        href="#/dashboard"
         className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-400 to-violet-400 text-white rounded-xl hover:from-indigo-500 hover:to-violet-500 transition-all shadow-sm hover:shadow-md"
       >
         Go to Dashboard

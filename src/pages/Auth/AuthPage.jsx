@@ -14,8 +14,8 @@ import {
   Github,
   Chrome
 } from 'lucide-react';
-import { 
-  signInWithEmailAndPassword, 
+import {
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
@@ -65,7 +65,7 @@ const AuthPage = () => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
-    
+
     if (!formData.email || !formData.password) {
       setError('Please fill in all fields');
       return;
@@ -90,38 +90,38 @@ const AuthPage = () => {
       if (isLogin) {
         // Sign In
         const userCredential = await signInWithEmailAndPassword(
-          auth, 
-          formData.email, 
+          auth,
+          formData.email,
           formData.password
         );
         console.log('Logged in:', userCredential.user);
         setSuccessMessage('Successfully logged in! Redirecting...');
-        
+
         // Store auth state if remember me is checked
         if (formData.rememberMe) {
           localStorage.setItem('rememberUser', 'true');
         }
-        
+
         setTimeout(() => {
           window.location.href = '/dashboard';
         }, 1500);
       } else {
         // Sign Up
         const userCredential = await createUserWithEmailAndPassword(
-          auth, 
-          formData.email, 
+          auth,
+          formData.email,
           formData.password
         );
-        
+
         if (formData.displayName) {
           await updateProfile(userCredential.user, {
             displayName: formData.displayName
           });
         }
-        
+
         console.log('Account created:', userCredential.user);
         setSuccessMessage('Account created successfully! Redirecting...');
-        
+
         setTimeout(() => {
           window.location.href = '/dashboard';
         }, 1500);
@@ -161,18 +161,24 @@ const AuthPage = () => {
   const handleGoogleAuth = async () => {
     setError('');
     setIsLoading(true);
-    
+
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      console.log('Google auth success:', result.user);
+      await signInWithPopup(auth, googleProvider);
       setSuccessMessage('Successfully authenticated! Redirecting...');
-      
       setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 1500);
+        window.location.href = '/#/dashboard';
+      }, 1000);
     } catch (error) {
       console.error('Google auth error:', error);
-      setError('Google authentication failed');
+      if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+        setError('Sign-in popup was closed. Please try again.');
+      } else if (error.code === 'auth/popup-blocked') {
+        setError('Popup was blocked by your browser. Please allow popups for this site.');
+      } else if (error.code === 'auth/unauthorized-domain') {
+        setError('This domain is not authorized. Add it in Firebase Console → Authentication → Settings → Authorized Domains.');
+      } else {
+        setError(`Google sign-in failed: ${error.message}`);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -181,18 +187,22 @@ const AuthPage = () => {
   const handleGithubAuth = async () => {
     setError('');
     setIsLoading(true);
-    
+
     try {
-      const result = await signInWithPopup(auth, githubProvider);
-      console.log('Github auth success:', result.user);
+      await signInWithPopup(auth, githubProvider);
       setSuccessMessage('Successfully authenticated! Redirecting...');
-      
       setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 1500);
+        window.location.href = '/#/dashboard';
+      }, 1000);
     } catch (error) {
       console.error('Github auth error:', error);
-      setError('GitHub authentication failed');
+      if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+        setError('Sign-in popup was closed. Please try again.');
+      } else if (error.code === 'auth/account-exists-with-different-credential') {
+        setError('An account already exists with this email using a different sign-in method.');
+      } else {
+        setError(`GitHub sign-in failed: ${error.message}`);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -203,7 +213,7 @@ const AuthPage = () => {
       setError('Please enter your email address');
       return;
     }
-    
+
     setIsLoading(true);
     try {
       await sendPasswordResetEmail(auth, formData.email);
@@ -218,12 +228,12 @@ const AuthPage = () => {
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
-    setFormData({ 
-      email: '', 
-      password: '', 
+    setFormData({
+      email: '',
+      password: '',
       confirmPassword: '',
       displayName: '',
-      rememberMe: false 
+      rememberMe: false
     });
     setError('');
     setSuccessMessage('');
@@ -233,10 +243,10 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex">
-      
+
       {/* Left Panel - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-900 via-indigo-800 to-violet-900 p-12 flex-col justify-between relative overflow-hidden">
-        
+
         {/* Abstract Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
@@ -293,7 +303,7 @@ const AuthPage = () => {
       {/* Right Panel - Auth Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
-          
+
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-400 to-violet-400 rounded-xl flex items-center justify-center">
@@ -308,8 +318,8 @@ const AuthPage = () => {
               {isLogin ? 'Welcome back' : 'Create account'}
             </h2>
             <p className="text-slate-400 mt-2">
-              {isLogin 
-                ? 'Enter your credentials to access your account' 
+              {isLogin
+                ? 'Enter your credentials to access your account'
                 : 'Start your 14-day free trial, no credit card required'}
             </p>
           </div>
@@ -358,7 +368,7 @@ const AuthPage = () => {
 
           {/* Form */}
           <form onSubmit={handleEmailAuth} className="space-y-5">
-            
+
             {/* Display Name (for signup only) */}
             {!isLogin && (
               <div className="space-y-1">
@@ -375,7 +385,7 @@ const AuthPage = () => {
                 </div>
               </div>
             )}
-            
+
             {/* Email Field */}
             <div className="space-y-1">
               <label className="text-sm text-slate-600 ml-1">Email address</label>
