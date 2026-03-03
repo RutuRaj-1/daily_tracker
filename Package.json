@@ -1,9 +1,10 @@
 {
-  "name": "Daily-Tracker",
+  "name": "daily-tracker",
   "version": "2.0.0",
   "private": true,
   "main": "electron/electron.js",
-  "homepage": "./",
+  "homepage": ".",
+
   "dependencies": {
     "date-fns": "^2.30.0",
     "firebase": "^10.8.0",
@@ -16,20 +17,38 @@
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.4"
   },
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-build": "node build-electron.js",
-    "electron-pack": "electron-builder --dir"
+
+    "electron:dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:pack": "electron-builder --dir"
   },
+
+  "build": {
+    "appId": "com.dailytracker.app",
+    "productName": "Daily Tracker",
+    "directories": {
+      "buildResources": "assets"
+    },
+    "files": [
+      "build/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  },
+
   "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
+    "extends": ["react-app"]
   },
+
   "browserslist": {
     "production": [
       ">0.2%",
@@ -42,6 +61,7 @@
       "last 1 safari version"
     ]
   },
+
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "concurrently": "^9.2.1",
