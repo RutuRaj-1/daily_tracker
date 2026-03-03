@@ -1,27 +1,45 @@
 // src/services/firebase/config.js
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
+// Firebase config using environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyDxoDbGE3YUaTEUC6brrww8UC9ZKeHAAIk",
-  authDomain: "daily-tracker-3c0b2.firebaseapp.com",
-  projectId: "daily-tracker-3c0b2",
-  storageBucket: "daily-tracker-3c0b2.firebasestorage.app",
-  messagingSenderId: "259016823902",
-  appId: "1:259016823902:web:8d3c8e2c7dd1cded8fd0cf",
-  measurementId: "G-SV3FKQKZZR"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Prevent multiple Firebase initializations
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-// Initialize services
+// Services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-export const analytics = getAnalytics(app);
 
+// Persistent login (no repeated login)
+setPersistence(auth, browserLocalPersistence).catch((err) => {
+  console.error("Auth persistence error:", err);
+});
+
+// Safe analytics initialization (avoid Electron crash)
+let analytics = null;
+
+if (typeof window !== "undefined") {
+  isSupported().then((supported) => {
+    if (supported) {
+      analytics = getAnalytics(app);
+    }
+  });
+}
+
+export { analytics };
 export default app;
