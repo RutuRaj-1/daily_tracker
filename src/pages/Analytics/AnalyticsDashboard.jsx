@@ -8,7 +8,6 @@ import {
   TrendingUp, Calendar, Award, Target, Star,
   Activity, Zap, Cpu
 } from 'lucide-react';
-import { useTasks } from '../../hooks/useTasks';
 import { useAnalytics } from '../../hooks/useAnalytics';
 
 const AnalyticsDashboard = () => {
