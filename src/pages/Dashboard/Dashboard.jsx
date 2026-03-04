@@ -33,7 +33,7 @@ const Dashboard = () => {
   const dayOfWeek = today.toLocaleDateString('en-US', { weekday: 'long' });
   const displayName = user?.displayName || userProfile?.displayName || 'there';
   const hour = today.getHours();
-  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const greeting = hour < 12 ? 'Good Morning' : hour < 17 ? 'Good Afternoon' : 'Good Evening';
 
   const goalEndDate = userProfile?.settings?.goalEndDate ||
     new Date(today.getFullYear(), 11, 31).toISOString().split('T')[0];

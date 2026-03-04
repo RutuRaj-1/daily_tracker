@@ -63,14 +63,21 @@ export const getUserTasks = async (userId) => {
   try {
     const q = query(
       collection(db, "tasks"),
-      where("userId", "==", userId),
-      orderBy("createdAt", "desc")
+      where("userId", "==", userId)
     );
     const querySnapshot = await getDocs(q);
-    const tasks = [];
+    let tasks = [];
     querySnapshot.forEach((doc) => {
       tasks.push({ id: doc.id, ...doc.data() });
     });
+
+    // Sort manually to avoid requiring a Firebase Composite Index
+    tasks.sort((a, b) => {
+      const timeA = a.createdAt?.seconds || 0;
+      const timeB = b.createdAt?.seconds || 0;
+      return timeB - timeA;
+    });
+
     return { success: true, data: tasks };
   } catch (error) {
     return { success: false, error: error.message };

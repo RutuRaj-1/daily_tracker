@@ -25,6 +25,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 const Tasks = lazy(() => import('./pages/Tasks/Tasks'));
 const Goals = lazy(() => import('./pages/Goals/Goals'));
 const Analytics = lazy(() => import('./pages/Analytics/AnalyticsDashboard'));
+const Analysis = lazy(() => import('./pages/Analysis/Analysis'));
 const AIChat = lazy(() => import('./pages/AIChat/AIAssistant'));
 const Settings = lazy(() => import('./pages/Settings/UserSettings'));
 const AuthPage = lazy(() => import('./pages/Auth/AuthPage'));
@@ -117,6 +118,12 @@ function App() {
                           <Route path="/analytics" element={
                             <PrivateRoute>
                               <Analytics />
+                            </PrivateRoute>
+                          } />
+
+                          <Route path="/analysis" element={
+                            <PrivateRoute>
+                              <Analysis />
                             </PrivateRoute>
                           } />
 

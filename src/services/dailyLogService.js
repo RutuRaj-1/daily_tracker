@@ -71,6 +71,22 @@ export const dailyLogService = {
         }
     },
 
+    // Save daily reflective analysis separately
+    saveDailyAnalysis: async (userId, dateStr, analysisText) => {
+        try {
+            const docId = `${userId}_${dateStr}`;
+            await setDoc(doc(db, "dailyLogs", docId), {
+                userId,
+                date: dateStr,
+                analysis: analysisText,
+                updatedAt: Timestamp.now()
+            }, { merge: true });
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    },
+
     // Get logs for the last N days
     getRecentLogs: async (userId, days = 7) => {
         try {

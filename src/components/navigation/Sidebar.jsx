@@ -2,7 +2,7 @@ import React, { useState, useCallback, memo } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, CheckSquare, BarChart3, Bot, Settings,
-  Target, Calendar, LogOut, Menu, X
+  Target, Calendar, LogOut, Menu, X, BookOpen
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useTasks } from '../../hooks/useTasks';
@@ -24,6 +24,7 @@ const Sidebar = memo(() => {
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
     { id: 'tasks', label: 'Tasks', icon: CheckSquare, path: '/tasks', badge: pendingCount > 0 ? String(pendingCount) : null },
     { id: 'goals', label: 'Goals', icon: Target, path: '/goals' },
+    { id: 'analysis', label: 'Analysis', icon: BookOpen, path: '/analysis' },
     { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics' },
     { id: 'ai-assistant', label: 'AI Assistant', icon: Bot, path: '/ai-assistant', badge: 'AI' },
     { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },

@@ -139,17 +139,24 @@ const Tasks = () => {
   const todayStr = useMemo(() => new Date().toISOString().split('T')[0], []);
 
   const filteredTasks = useMemo(() => {
-    let result = tasks.filter(task => {
-      const td = task.dueDate ? task.dueDate.split('T')[0] : '';
-      return td === dateStr || (!task.dueDate && dateStr === todayStr);
-    });
+    let result = tasks;
 
-    switch (filter) {
-      case 'pending': result = result.filter(t => !t.completed); break;
-      case 'completed': result = result.filter(t => t.completed); break;
-      case 'high': result = result.filter(t => t.priority === 'high'); break;
-      case 'overdue': result = result.filter(t => !t.completed && t.dueDate && t.dueDate.split('T')[0] < todayStr); break;
-      default: break;
+    if (filter === 'overdue') {
+      result = result.filter(t => !t.completed && t.dueDate && t.dueDate.split('T')[0] < todayStr);
+    } else {
+      result = result.filter(task => {
+        const td = task.dueDate ? task.dueDate.split('T')[0] : '';
+        const isSelectedDate = td === dateStr || (!task.dueDate && dateStr === todayStr);
+        const isOverdueRollover = dateStr === todayStr && !task.completed && td && td < todayStr;
+        return isSelectedDate || isOverdueRollover;
+      });
+
+      switch (filter) {
+        case 'pending': result = result.filter(t => !t.completed); break;
+        case 'completed': result = result.filter(t => t.completed); break;
+        case 'high': result = result.filter(t => t.priority === 'high'); break;
+        default: break;
+      }
     }
 
     if (searchQuery) {
@@ -263,8 +270,8 @@ const Tasks = () => {
               key={f.id}
               onClick={() => setFilter(f.id)}
               className={`px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${filter === f.id
-                  ? 'bg-indigo-500 text-white shadow-sm'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                ? 'bg-indigo-500 text-white shadow-sm'
+                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
                 }`}
             >
               {f.label}
@@ -341,6 +348,7 @@ const Tasks = () => {
                     value={newTask.dueDate || dateStr}
                     onChange={(e) => setNewTask(p => ({ ...p, dueDate: e.target.value }))}
                     style={{ colorScheme: 'light' }}
+                    onClick={(e) => e.target.showPicker && e.target.showPicker()}
                     className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-300 cursor-pointer"
                   />
                 </div>
@@ -424,6 +432,7 @@ const Tasks = () => {
                     value={editingTask.dueDate ? editingTask.dueDate.split('T')[0] : dateStr}
                     onChange={(e) => setEditingTask(p => ({ ...p, dueDate: e.target.value }))}
                     style={{ colorScheme: 'light' }}
+                    onClick={(e) => e.target.showPicker && e.target.showPicker()}
                     className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-300 cursor-pointer"
                   />
                 </div>
