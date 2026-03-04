@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { BookOpen, Calendar, Save, CheckCircle2, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { BookOpen, Save, CheckCircle2, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { dailyLogService } from '../../services/dailyLogService';
 import { useTasks } from '../../hooks/useTasks';
